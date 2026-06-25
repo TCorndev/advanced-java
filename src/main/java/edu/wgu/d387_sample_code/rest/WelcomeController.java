@@ -20,10 +20,9 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 @CrossOrigin
 @RequestMapping("/api")
 public class WelcomeController {
-    static ExecutorService welcomeExecutor=newFixedThreadPool(2);
     @RequestMapping(path = "/welcome", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getWelcome() throws InterruptedException {
-        //fix this later to make sure both tasks are executed before returning the list
+        ExecutorService welcomeExecutor=newFixedThreadPool(2);
         List<String> welcomeList = new ArrayList<>();
         welcomeExecutor.execute(() -> {
             welcomeList.add(getLanguage("welcome_en_CA.properties"));
@@ -31,6 +30,8 @@ public class WelcomeController {
         welcomeExecutor.execute(() -> {
             welcomeList.add(getLanguage("welcome_fr_CA.properties"));
         });
+        welcomeExecutor.shutdown();
+        welcomeExecutor.awaitTermination(5, TimeUnit.SECONDS);
         return welcomeList;
     }
 

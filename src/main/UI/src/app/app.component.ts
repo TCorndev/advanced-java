@@ -28,10 +28,11 @@ export class AppComponent implements OnInit{
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
   welcome!:Observable<string[]>;
+  time!:Observable<Time>;
 
     ngOnInit(){
       this.welcome = this.httpClient.get<string[]>(this.baseURL + "/api/welcome")
-
+      this.time = this.httpClient.get<Time>(this.baseURL + "/api/time")
       this.roomsearch= new FormGroup({
         checkin: new FormControl(' '),
         checkout: new FormControl(' ')
@@ -120,6 +121,15 @@ export class ReserveRoomRequest {
   }
 }
 
+export interface Time{
+  year:string;
+  month:string;
+  day:string;
+  et:string;
+  mt:string;
+  utc:string;
+
+}
 /*
 var ROOMS: Room[]=[
   {

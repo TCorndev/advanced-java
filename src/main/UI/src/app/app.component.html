@@ -27,9 +27,12 @@
 <main id="wrapper">
   <div class="scene" id="welcome">
     <article class="content">
-
-
-
+      <div *ngIf="time | async as t">
+        <h1>Join us for our online presentation: {{t.month}}, {{t.day}}, {{t.year}}</h1>
+        <h1>{{ t.et }}</h1>
+        <h1>{{ t.mt }}</h1>
+        <h1>{{ t.utc }}</h1>
+      </div>
       <div class="row">
         <div class=""col-12>
           <div class="gallery">
